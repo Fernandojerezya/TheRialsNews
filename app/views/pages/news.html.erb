@@ -1,0 +1,13 @@
+<%= image_tag news.image if news.image.attached? %>
+
+<% @news.each do |news| %>
+  <h2><%= news.title %></h2>
+  <p><%= news.content %></p>
+
+  <h3>Comentarios</h3>
+  <% news.comments.each do |comment| %>
+    <p><%= comment.content %></p>
+  <% end %>
+
+  <hr>
+<% end %>

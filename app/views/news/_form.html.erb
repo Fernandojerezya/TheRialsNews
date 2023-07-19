@@ -20,6 +20,19 @@
     <%= form.label :content, style: "display: block" %>
     <%= form.text_area :content %>
   </div>
+  
+  <%= form_with(model: news, local: true) do |form| %>
+  <!-- Otros campos de la noticia -->
+
+  <div class="field">
+    <%= form.label :image %>
+    <%= form.file_field :image %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
 
   <div>
     <%= form.submit %>

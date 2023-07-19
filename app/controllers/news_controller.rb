@@ -68,3 +68,23 @@ class NewsController < ApplicationController
       params.require(:news).permit(:title, :content)
     end
 end
+def create
+  @news = News.new(news_params)
+  @news.image.attach(params[:news][:image]) # Adjunta la imagen al objeto de la noticia
+
+  if @news.save
+    redirect_to @news, notice: 'La noticia se creó correctamente.'
+  else
+    render :new
+  end
+end
+
+def update
+  if @news.update(news_params)
+    @news.image.attach(params[:news][:image]) if params[:news][:image].present? # Actualiza la imagen solo si se selecciona una nueva
+
+    redirect_to @news, notice: 'La noticia se actualizó correctamente.'
+  else
+    render :edit
+  end
+end
