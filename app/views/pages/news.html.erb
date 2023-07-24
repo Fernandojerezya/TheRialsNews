@@ -1,6 +1,5 @@
-<%= image_tag news.image if news.image.attached? %>
-
 <% @news.each do |news| %>
+<%= image_tag news.image if news.image.attached? %>
   <h2><%= news.title %></h2>
   <p><%= news.content %></p>
 
