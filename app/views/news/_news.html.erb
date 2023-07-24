@@ -1,0 +1,13 @@
+<div id="<%= dom_id news %>">
+<%= image_tag news.image if news.image.attached? %>
+  <p>
+    <strong>Title:</strong>
+    <%= news.title %>
+  </p>
+
+  <p>
+    <strong>Content:</strong>
+    <%= news.content %>
+  </p>
+
+</div>

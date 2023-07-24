@@ -18,7 +18,6 @@ module TheRialNews
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    # Configuración del idioma predeterminado
-    config.i18n.default_locale = :es
   end
 end
+

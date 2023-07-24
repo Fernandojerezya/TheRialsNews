@@ -1,0 +1,17 @@
+<nav>
+    <!-- ... Enlaces para Iniciar Sesión y Registrarse ...seeee -->
+     <ul>
+    
+    <% if user_signed_in? %>
+      <li><%= link_to 'Cerrar Sesión', destroy_user_session_path, method: :delete %></li>
+    <% end %>
+    <% if user_signed_in? && current_user.admin? %>
+      <li><%= link_to 'Ingreso Admin', admin_login_path %></li>
+    <% end %>
+    </ul>
+    <!-- ... Enlaces para Iniciar Sesión y Registrarse (admin) ... -->
+    <% if user_signed_in? && current_user.admin? %>
+      <li><%= link_to 'Ingreso Admin', admin_login_path %></li>
+    <% end %>
+  </ul>
+</nav>
