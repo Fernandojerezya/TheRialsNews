@@ -21,11 +21,11 @@ class NewsController < ApplicationController
 
   # POST /news or /news.json
   def create
-    @news = News.new(news_params)
+    @news = current_user.news.build(news_params)
+    
 
-    respond_to do |format|
       if @news.save
-        format.html { redirect_to news_url(@news), notice: "News was successfully created." }
+        format.html { redirect_to news_url(@news), notice: "Noticia crada" }
         format.json { render :show, status: :created, location: @news }
       else
         format.html { render :new, status: :unprocessable_entity }
