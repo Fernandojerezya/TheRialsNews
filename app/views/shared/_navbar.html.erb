@@ -6,6 +6,8 @@
       <% if current_user.admin? %>
         <li><%= link_to 'Ingreso Admin', admin_login_path %></li>
       <% end %>
+      <!-- Enlace para crear noticias -->
+      <li><%= link_to 'Crear Noticia', new_news_path %></li> 
     <% end %>
   </ul>
 </nav>

@@ -1,5 +1,6 @@
 class NewsController < ApplicationController
-  before_action :set_news, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_news, only: [:show, :edit, :update, :destroy]
 
   # GET /news or /news.json
   def index
@@ -22,28 +23,22 @@ class NewsController < ApplicationController
   # POST /news or /news.json
   def create
     @news = current_user.news.build(news_params)
-    
+    @news.image.attach(params[:news][:image]) # Adjunta la imagen al objeto de la noticia
 
-      if @news.save
-        format.html { redirect_to news_url(@news), notice: "Noticia crada" }
-        format.json { render :show, status: :created, location: @news }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @news.errors, status: :unprocessable_entity }
-      end
+    if @news.save
+      redirect_to @news, notice: 'La noticia se creó correctamente.'
+    else
+      render :new
     end
   end
-
   # PATCH/PUT /news/1 or /news/1.json
   def update
-    respond_to do |format|
-      if @news.update(news_params)
-        format.html { redirect_to news_url(@news), notice: "News was successfully updated." }
-        format.json { render :show, status: :ok, location: @news }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @news.errors, status: :unprocessable_entity }
-      end
+    if @news.update(news_params)
+      @news.image.attach(params[:news][:image]) if params[:news][:image].present? # Actualiza la imagen solo si se selecciona una nueva
+
+      redirect_to @news, notice: 'La noticia se actualizó correctamente.'
+    else
+      render :edit
     end
   end
 
@@ -52,39 +47,20 @@ class NewsController < ApplicationController
     @news.destroy
 
     respond_to do |format|
-      format.html { redirect_to news_index_url, notice: "News was successfully destroyed." }
+      format.html { redirect_to news_index_url, notice: 'La noticia se eliminó correctamente.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_news
-      @news = News.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def news_params
-      params.require(:news).permit(:title, :content)
-    end
-end
-def create
-  @news = News.new(news_params)
-  @news.image.attach(params[:news][:image]) # Adjunta la imagen al objeto de la noticia
+  # ...
 
-  if @news.save
-    redirect_to @news, notice: 'La noticia se creó correctamente.'
-  else
-    render :new
+  def set_news
+    @news = News.find(params[:id])
   end
-end
 
-def update
-  if @news.update(news_params)
-    @news.image.attach(params[:news][:image]) if params[:news][:image].present? # Actualiza la imagen solo si se selecciona una nueva
-
-    redirect_to @news, notice: 'La noticia se actualizó correctamente.'
-  else
-    render :edit
+  def news_params
+    params.require(:news).permit(:title, :content)
   end
 end

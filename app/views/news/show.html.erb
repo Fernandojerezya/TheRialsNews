@@ -1,5 +1,5 @@
 <p style="color: green"><%= notice %></p>
-<%= image_tag news.image if news.image.attached? %>
+<%= image_tag @news.image if @news.image.attached? %>
 
 <%= render @news %>
 
@@ -9,3 +9,4 @@
 
   <%= button_to "Destroy this news", @news, method: :delete %>
 </div>
+
